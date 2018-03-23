@@ -1,0 +1,173 @@
+<aside class="sidebar">
+    <div class="fixed">
+        <if condition=' $_SERVER["REQUEST_URI"]=="/" '>
+            <div class="widget widget-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab">网站公告</a></li>
+                    <li role="presentation"><a href="#centre" aria-controls="centre" role="tab" data-toggle="tab">在线聊天群</a></li>
+                    <li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab">联系站长</a></li>
+                    <!--<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab">在线聊天群</a></li>-->
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane notice active" id="notice">
+                        <ul>
+                            <li>
+                                <time datetime="2016-01-04">01-04</time>
+                                <a href="" target="_blank">欢迎访问异清轩博客</a></li>
+                            <li>
+                                <time datetime="2016-01-04">01-04</time>
+                                <a target="_blank" href="">在这里可以看到前端技术，后端程序，网站内容管理系统等文章，还有我的程序人生！</a></li>
+                            <li>
+                                <time datetime="2016-01-04">01-04</time>
+                                <a target="_blank" href="">在这个小工具中最多可以调用五条</a></li>
+                        </ul>
+                    </div>
+                    <div role="tabpanel" class="tab-pane centre" id="centre">
+                        <h4>需要登录QQ才可和本网站逛客进行聊天!</h4>
+                        <p class="liaotian"><a data-toggle="modal"   class="btn btn-primary">立即登录</a></p>
+                        <link rel="stylesheet" href="__PUBLIC__/mljzq/css/liaotian.css">
+                        <script src="__PUBLIC__/mljzq/layer/layer.js" charset="utf-8"></script>
+                        <script>
+                            //在这里面输入任何合法的js语句
+
+                            $('.liaotian').click(function () {
+                                layer.open({
+                                    type: 1 //Page层类型
+                                    ,area: ['800', '600px']
+                                    ,title: '本站聊天室',
+                                        shadeClose: true,
+                                        shade: false
+
+                                    ,maxmin: true //允许全屏最小化
+                                    ,anim: 1 //0-6的动画形式，-1不开启
+                                    ,content: '<div style="width:400px; height:450px; " id="chat"><div class="sidebar"><div class="m-card"><footer><input class="search" placeholder="search user..."></footer></div></div><div class="main"><div class="m-message"><ul class="add">      功能正在开发中</ul></div><div class="m-text"><textarea  class="textar" placeholder="按 Ctrl + Enter 发送"></textarea></div></div></div>'
+                                });
+
+
+                                // 假设服务端ip为127.0.0.1
+                                ws = new WebSocket("ws://140.143.208.67:2000");
+                                ws.onopen = function() {
+                                    $('body').keypress(function(e){
+                                        if(e.ctrlKey && e.which == 13 || e.which == 10) {
+
+                                           var text= $('.textar').val()
+                                            ws.send(text);
+                                           // <li><p class="time"><span>16:18</span></p><div class="main"><img class="avatar" width="30" height="30" src="__PUBLIC__/mljzq/images/2.png"><div class="text">Hello，这是一个基于Vue +                            Webpack构建的简单chat示例，聊天记录保存在localStorge。简单演示了Vue的基础特性和webpack配置。</div></div></li>
+
+                                            var myDate = new Date();
+                                            var h=myDate.getHours();       //获取当前小时数(0-23)
+                                            var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+                                          // $('.add').append('<li><p class="time"><span>'+h+':'+m+'</span></p><div class="main self"><img class="avatar" width="30" height="30" src="__PUBLIC__/mljzq/images/1.jpg"><div class="text">'+text+'</div></div></li>')
+                                        }
+                                    });
+
+                                    // alert("给服务端发送一个字符串：tom");
+                                };
+                                ws.onmessage = function(e) {
+                                    // alert("收到服务端的消息：" + e.data);
+                                    var myDate = new Date();
+                                    var h=myDate.getHours();       //获取当前小时数(0-23)
+                                    var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+                                    $('.add').append('<li><p class="time"><span>'+h+':'+m+'</span></p><div class="main self"><img class="avatar" width="30" height="30" src="__PUBLIC__/mljzq/images/1.jpg"><div class="text">'+e.data+'</div></div></li>')
+
+                                    console.log(e);
+                                };
+
+
+
+                            })
+
+
+
+                       </script>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane contact" id="contact">
+                        <h2>Email:<br />
+                            <a  data-toggle="tooltip" data-placement="bottom" title="ymdhis@163.com">ymdhis@163.com</a> <br><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1959873847&site=qq&menu=no"><img border="0" src="http://wpa.qq.com/pa?p=2:1959873847:51" alt="点击这里给我发消息" title="点击这里给我发消息"/></a></h2>
+
+                    </div>
+                </div>
+            </div>
+        </if>
+
+
+
+
+        <div class="widget widget_search">
+
+                <div class="input-group">
+                    <input type="text" name="guanjian" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+                    <span class="input-group-btn">
+            <button class="btn btn-default"  id="dianjil" type="submit">搜索</button>
+            </span>
+
+                </div>
+
+            <script>
+                $('#dianjil').click(function () {
+
+                    var a= $('input[name=guanjian]').val();
+                     // $('.esid').html("");
+                    $('.eside').load('__URL__/ftext');
+                    // alert(a);
+                    $.get('__URL__/ftexts',{'name':a},function (data) {
+                        text=''
+                        $( JSON.parse(data)).each(function(i,m){
+                            if (m[1])
+                            {
+
+                                $('.spans').html(m[1][0]);
+                             // console.log(m[1][0])
+
+                            }else{
+
+
+                                text+='           <div class="textsd odds"><div class="right"><p><a href="/Home/Index/article/id/'+m.id+'">'+m.uname+'</a></p></div><div class="dian"><p class="meta">\n' +
+                                    '\n' +
+                                    '                <span class="views"><i class="glyphicon glyphicon-eye-open"></i> '+m.dian+'</span> &nbsp<a class="comment" href="/Home/Index/article/id/'+m.id+'"><i class="glyphicon glyphicon-comment"></i>&nbsp 0</a></p></div></div><br>\n' +
+                                    '\n'
+
+                            }
+                            $('.textsd').html(text);
+
+
+                        })
+                    })
+
+
+                })
+
+            </script>
+
+        </div>
+        <if condition=' $_SERVER["REQUEST_URI"]!="/" '>
+        <h5 style="color:#999">&nbsp&nbsp&nbsp网站总访问量:{$num}</h5>
+            <br>
+        </if>
+
+    </div>
+    <if condition=' $_SERVER["REQUEST_URI"]=="/" '>
+        <div class=" widget_sentence">
+            <h5 style="color:#999">&nbsp&nbsp&nbsp网站总访问量:{$num}</h5>
+            <br>
+        </div>
+            <div class="widget widget_sentence">
+                <h3>每日一句</h3>
+                <div class="widget-sentence-content">
+                    <h4>2016年01月05日星期二</h4>
+                    <p>Do not let what you cannot do interfere with what you can do.<br />
+                        别让你不能做的事妨碍到你能做的事。（John Wooden）</p>
+                </div>
+            </div>
+    </if>
+    <div class="widget widget_hot">
+        <h3>热门文章</h3>
+        <ul>
+            <foreach name="remen" item="vos" >
+
+                <li><a href="{:U(article,array('id'=>$vos['id']))}"><span class="thumbnail"><img class="thumb" data-original="__ROOT__/Uploads/{$vos.img}" src="__ROOT__/Uploads/{$vos.img}" alt=""></span><span class="text">{$vos.uname}</span><span class="muted"><i class="glyphicon glyphicon-time"></i> {$vos.time} </span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i> {$vos.dian}</span></a></li>
+            </foreach>
+        </ul>
+    </div>
+</aside>
